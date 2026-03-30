@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  </head>
+  <body>
+    <div class="bg-gradient" aria-hidden="true"></div>
+    <main class="shell">
+      <header class="header">
+        <h1>Weather</h1>
+        <p class="tagline">Current conditions by city — powered by your server</p>
+      </header>
+
+      <form class="search" id="search-form" autocomplete="off">
+        <label class="sr-only" for="city">City name</label>
+        <input
+          type="text"
+          id="city"
+          name="city"
+          placeholder="e.g. London, Tokyo, New York"
+          required
+          maxlength="120"
+        />
+        <button type="submit" id="submit-btn">Get weather</button>
+      </form>
+
+      <p class="message message--error" id="error-msg" hidden role="alert"></p>
+      <p class="message message--loading" id="loading-msg" hidden>Looking up forecast…</p>
+
+      <section class="card" id="result" hidden aria-live="polite">
+        <div class="card__top">
+          <div class="card__location">
+            <h2 id="place"></h2>
+            <p class="card__coords" id="coords"></p>
+          </div>
+          <img class="card__icon" id="weather-icon" alt="" width="96" height="96" />
+        </div>
+        <p class="card__desc" id="description"></p>
+        <div class="card__temp">
+          <span class="card__temp-value" id="temp"></span>
+          <span class="card__temp-unit">°C</span>
+        </div>
+        <p class="card__feels" id="feels"></p>
+        <ul class="stats" id="stats"></ul>
+      </section>
+    </main>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+  </body>
+</html>
