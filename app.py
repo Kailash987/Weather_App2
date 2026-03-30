@@ -7,6 +7,7 @@ import truststore
 from dotenv import load_dotenv
 from flask import Flask, jsonify, render_template, request
 from requests.adapters import HTTPAdapter
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 # Broken IPv6 routes often cause timeouts on Windows; prefer IPv4 for API calls.
 try:
@@ -21,7 +22,16 @@ except (ImportError, AttributeError):
 
 load_dotenv()
 
-app = Flask(__name__)
+app = Flask(
+    __name__,
+    template_folder="templates",
+    static_folder="public/static",
+    static_url_path="/static",
+)
+
+app.wsgi_app = ProxyFix(
+    app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1
+)
 
 OWM_BASE = "https://api.openweathermap.org/data/2.5/weather"
 HTTP_TIMEOUT = 20
